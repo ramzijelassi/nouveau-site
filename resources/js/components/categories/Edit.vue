@@ -1,12 +1,12 @@
 <template>
     <div class="category-new">
-        <form @submit.prevent="add">
+        <form @submit.prevent="updateCategory">
             <table class="table">
                 <tr>
                     <th>Name</th>
                     <td>
-                        <input type="text" class="form-control" v-model="category.cat_name"
-                         placeholder="Category Name"/>
+                        <input type="text" name="cat_name" class="form-control"
+                         v-model="category.cat_name" placeholder="Category Name"/>
                     </td>
                 </tr>
 
@@ -15,7 +15,7 @@
                         <router-link to="/categories" class="btn">Cancel</router-link>
                     </td>
                     <td class="text-right">
-                        <input type="submit" value="Create" class="btn btn-primary">
+                        <input type="submit" value="Update" class="btn btn-primary">
                     </td>
                 </tr>
             </table>
@@ -42,7 +42,7 @@
                 errors: null
             };
         },
-        computed: {
+       computed: {
             categories() {
                 return this.$store.getters.categories;
             },
@@ -50,19 +50,27 @@
                 return this.$store.getters.currentUser;
             }
         },
+
+        mounted(){
+            axios.get(`/api/editcategory/${this.$route.params.id}`)
+                .then((response)=>{
+                    this.category = response.data.category
+                })
+        },
+
         methods: {
-            add() {
-                this.errors = null;
+            updateCategory() {
+               this.errors = null;
                 const constraints = this.getConstraints();
                 const errors = validate(this.$data.category, constraints);
                 if(errors) {
                     this.errors = errors;
                     return;
                 }
-                axios.post('/api/categories/new', this.$data.category)
+                axios.post(`/api/update-category/${this.$route.params.id}`,this.$data.category)
                     .then((response) => {
-                        this.$store.dispatch('getCategories');
-                        this.$router.push('/categories');
+                         this.$store.dispatch('getCategories');
+                         this.$router.push('/categories');
                     });
             },
             getConstraints() {

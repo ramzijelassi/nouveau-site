@@ -1,5 +1,5 @@
 <template>
-    <div class="customer-view" v-if="customer">
+    <div class="customer-view" v-if="category">
         <div class="user-img">
             <img src="https://www.scottsdaleazestateplanning.com/wp-content/uploads/2018/01/user.png" alt="">
         </div>
@@ -7,26 +7,14 @@
             <table class="table">
                 <tr>
                     <th>ID</th>
-                    <td>{{ customer.id }}</td>
+                    <td>{{ category.id }}</td>
                 </tr>
                 <tr>
                     <th>Name</th>
-                    <td>{{ customer.name }}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>{{ customer.email }}</td>
-                </tr>
-                <tr>
-                    <th>Phone</th>
-                    <td>{{ customer.phone }}</td>
-                </tr>
-                <tr>
-                    <th>Website</th>
-                    <td>{{ customer.website }}</td>
+                    <td>{{ category.cat_name }}</td>
                 </tr>
             </table>
-            <router-link to="/customers">Back to all customers</router-link>
+            <router-link to="/categories">Back to all categories</router-link>
         </div>
     </div>
 </template>
@@ -35,26 +23,26 @@
     export default {
         name: 'view',
         created() {
-            if (this.customers.length) {
-                this.customer = this.customers.find((customer) => customer.id == this.$route.params.id);
+            if (this.categories.length) {
+                this.category = this.categories.find((category) => category.id == this.$route.params.id);
             } else {
-                axios.get(`/api/customers/${this.$route.params.id}`)
+                axios.get(`/api/categories/${this.$route.params.id}`)
                     .then((response) => {
-                        this.customer = response.data.customer
+                        this.category = response.data.category
                     });
             }
         },
         data() {
             return {
-                customer: null
+                category: null
             };
         },
         computed: {
             currentUser() {
                 return this.$store.getters.currentUser;
             },
-            customers() {
-                return this.$store.getters.customers;
+            categories() {
+                return this.$store.getters.categories;
             }
         }
     }

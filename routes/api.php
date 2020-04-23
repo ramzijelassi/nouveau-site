@@ -36,8 +36,20 @@ Route::group(['middleware' => 'jwt.auth'], function ($router) {
 
 
      //Category
-     Route::get('categories', 'CategoryController@all');
-     Route::get('categories/{id}', 'CategoryController@get');
-     Route::post('categories/new', 'CategoryController@new');
+     Route::get('/categories', 'CategoryController@all');
+     Route::get('/categories/{id}', 'CategoryController@get');
+     Route::post('/categories/new', 'CategoryController@new');
+     Route::get('/editcategory/{id}','CategoryController@edit_category');
+     Route::post('/update-category/{id}','CategoryController@update_category');
+     Route::get('category/{id}','CategoryController@delete_category');
+
+
+     //Task
+
+     Route::get('/taskList','TaskController@index');
+     Route::post('/taskList','TaskController@store');
+     Route::get('/tasks/edit/{id}','TaskController@edit');
+     Route::patch('/taskList/update/{id}','TaskController@update');
+     Route::delete('/tasks/{id}','TaskController@destroy');
 
 });

@@ -34,4 +34,27 @@ class CategoryController extends Controller
             "category" => $category
         ], 200);
     }
+
+    public function edit_category($id){
+        $category = Category::whereId($id)->first();
+        return response()->json([
+            'category'=>$category
+        ],200);
+    }
+    public function update_category(Request $request,$id){
+        $category = Category::whereId($id)->first();
+        $category->cat_name = $request->cat_name;
+        $category->save();
+
+        return response()->json([
+            "category" => $category
+        ], 200);
+    }
+
+    public function delete_category($id){
+        $category = Category::whereId($id)->first();
+        $category->delete();
+    }
+
+
 }

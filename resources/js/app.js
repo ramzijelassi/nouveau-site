@@ -9,6 +9,9 @@ import { initialize } from './helpers/general';
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('new-task', require('./components/tasks/New.vue').default)
+Vue.component('edit-task', require('./components/tasks/Edit.vue').default)
 
 const store = new Vuex.Store(StoreData);
 
