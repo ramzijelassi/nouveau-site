@@ -26,3 +26,18 @@ Route::group(['prefix' => 'auth'], function ($router) {
     Route::post('me', 'AuthController@me');
 
 });
+
+Route::group(['middleware' => 'jwt.auth'], function ($router) {
+
+    //Customer
+    Route::get('customers', 'CustomersController@all');
+    Route::get('customers/{id}', 'CustomersController@get');
+    Route::post('customers/new', 'CustomersController@new');
+
+
+     //Category
+     Route::get('categories', 'CategoryController@all');
+     Route::get('categories/{id}', 'CategoryController@get');
+     Route::post('categories/new', 'CategoryController@new');
+
+});

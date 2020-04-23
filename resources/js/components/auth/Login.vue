@@ -49,7 +49,7 @@
                 login(this.$data.form)
                     .then((res) => {
                         this.$store.commit("loginSuccess", res);
-                        this.$router.push({path: '/'});
+                        this.$router.push({path: '/categories'});
                     })
                     .catch((error) => {
                         this.$store.commit("loginFailed", {error});

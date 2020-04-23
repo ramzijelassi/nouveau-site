@@ -8,7 +8,8 @@ export default {
         isLoggedIn: !!user,
         loading: false,
         auth_error: null,
-        customers: []
+        customers: [],
+        categories: []
     },
     getters: {
         isLoading(state) {
@@ -25,6 +26,9 @@ export default {
         },
         customers(state) {
             return state.customers;
+        },
+        categories(state) {
+            return state.categories;
         }
     },
     mutations: {
@@ -51,17 +55,28 @@ export default {
         },
         updateCustomers(state, payload) {
             state.customers = payload;
+        },
+        updateCategories(state, payload) {
+            state.categories = payload;
         }
     },
     actions: {
         login(context) {
             context.commit("login");
         },
-        //getCustomers(context) {
-        //  axios.get('/api/customers')
-        //    .then((response) => {
-        //      context.commit('updateCustomers', response.data.customers);
-        //})
-        //}
+        getCustomers(context) {
+            axios.get('/api/customers')
+                .then((response) => {
+                    context.commit('updateCustomers', response.data.customers);
+                })
+        },
+        getCategories(context) {
+            axios.get('/api/categories')
+                .then((response) => {
+                    context.commit('updateCategories', response.data.categories);
+                })
+        },
+
+
     }
 };
