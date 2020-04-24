@@ -1,62 +1,83 @@
 <template>
     <div class="container">
-        <new-task @task-added="refresh"></new-task>
-        <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center"
-             v-for="task in tasks.data" :key="task.id">
-                <a href="#">{{task.name}}</a>
-             <div>
-                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editmoldal"
-              @click="getTask(task.id)"
-             >
-                Editer
-            </button>
-             <button type="button" class="btn btn-danger" @click="deletetask(task.id)">Supprimer</button>
-             </div>
-            </li>
-        <edit-task v-bind:taskToEdit="taskToEdit" @task-updated="refresh" data-dismiss="modal"></edit-task>
-        </ul>
-        <pagination :data="tasks" @pagination-change-page="getResults" class="mt-5"></pagination>
+         <section class="content">
+            <div class="row justify-content-around" >
+                <div class="col-12 ">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Post List</h3>
 
+                            <div class="card-tools">
+                                <new-post @post-added="refresh"></new-post>
+                            </div>
+                        </div>
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+
+                                    <th>Sl</th>
+                                    <th>User</th>
+                                    <th>Category</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Photo</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr v-for="post in posts.data" :key="post.id">
+                                 <td>{{post.id}}</td>
+                                 <td>{{post.user.name}}</td>
+                                 <td>{{post.category.cat_name}}</td>
+                                 <td>{{post.title }}</td>
+                                 <td>{{post.description }}</td>
+                                 <td><img :src="ourImage(post.photo)" alt="" width="40" height="50"></td>
+                                </tr>
+                                </tbody>
+
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
     </div>
 </template>
 <script>
 export default {
     data(){
      return{
-      tasks:{},
-      taskToEdit:''
+      posts:{},
+
     }
 
     },
     created(){
-     axios.get('http://localhost:8000/api/taskList')
-     .then(response=>this.tasks=response.data)
+     axios.get('http://localhost:8000/api/postList')
+     .then(response=>this.posts=response.data)
      .catch(error=>console.log(error));
     },
     mounted(){
 
     },
     methods:{
-       getResults(page = 1) {
-			axios.get('http://localhost:8000/api/taskList' + page)
-                .then(response=>{
-                    this.tasks=response.data;
-                });
-        },
-        getTask(id){
-         axios.get('http://localhost:8000/api/tasks/edit/' + id)
-         .then(response=>this.taskToEdit=response.data)
-         .catch(error=>console.log(error));
-        },
-        deletetask(id){
-         axios.delete('http://localhost:8000/api/tasks/' + id)
-         .then(response=>this.tasks=response.data)
-         .catch(error=>console.log(error));
-        },
-        refresh(tasks){
-         this.tasks = tasks.data
-        }
+     refresh(posts){
+      this.posts = posts.data
+     },
+      ourImage(img)
+     {
+        return "uploadimage/"+img;
+     },
     },
 }
 </script>

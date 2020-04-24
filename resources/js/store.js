@@ -9,7 +9,9 @@ export default {
         loading: false,
         auth_error: null,
         customers: [],
-        categories: []
+        categories: [],
+        allcategories: [],
+        post: [],
     },
     getters: {
         isLoading(state) {
@@ -29,7 +31,13 @@ export default {
         },
         categories(state) {
             return state.categories;
-        }
+        },
+        getCategory(state) {
+            return state.category
+        },
+        getAllPost(state) {
+            return state.post
+        },
     },
     mutations: {
         login(state) {
@@ -58,7 +66,18 @@ export default {
         },
         updateCategories(state, payload) {
             state.categories = payload;
-        }
+        },
+        categoreis(state, data) {
+            return state.category = data
+        },
+        allcategories(state, payload) {
+            return state.allcategories = payload
+        },
+        allpost(state, payload) {
+            return state.post = payload
+        },
+
+
     },
     actions: {
         login(context) {
@@ -74,6 +93,13 @@ export default {
             axios.get('/api/categories')
                 .then((response) => {
                     context.commit('updateCategories', response.data.categories);
+                })
+        },
+        gelAllPost(context) {
+            axios.get('/api/postList')
+                .then((response) => {
+                    console.log(response.data)
+                    context.commit('allpost', response.data.posts)
                 })
         },
 

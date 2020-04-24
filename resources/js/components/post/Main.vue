@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card card-default">
-                    <div class="card-header">Taks</div>
+                    <div class="card-header">Post</div>
 
                     <div class="card-body">
                         <router-view></router-view>
@@ -16,6 +16,6 @@
 
 <script>
     export default {
-        name: 'tasks-main'
+        name: 'post-main'
     }
 </script>

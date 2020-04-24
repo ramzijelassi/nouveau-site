@@ -25,6 +25,9 @@
                          <li>
                             <router-link to="/posts" class="nav-link">Posts</router-link>
                         </li>
+                         <li>
+                            <router-link to="/clients" class="nav-link">Clients</router-link>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                                 {{ currentUser.name }} <span class="caret"></span>

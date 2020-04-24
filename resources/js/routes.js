@@ -33,7 +33,6 @@ import EditPost from './components/post/Edit.vue';
 
 
 
-
 export const routes = [{
         path: '/',
         component: Home,
@@ -44,6 +43,30 @@ export const routes = [{
     {
         path: '/login',
         component: Login
+    },
+    {
+        path: '/posts',
+        component: PostMain,
+        meta: {
+            requiresAuth: true
+        },
+        children: [{
+                path: '/',
+                component: PostsList
+            },
+            {
+                path: 'new',
+                component: NewPost
+            },
+            {
+                path: ':id',
+                component: Post
+            },
+            {
+                path: 'edit-post/:id',
+                component: EditPost
+            }
+        ]
     },
     {
         path: '/tasks',

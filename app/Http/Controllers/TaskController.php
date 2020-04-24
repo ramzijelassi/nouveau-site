@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
+use App\Tas;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -17,6 +19,15 @@ class TaskController extends Controller
         $tasks=Task::orderBy('created_at','DESC')->paginate(1000);
         return response()->json($tasks,200);
     }
+
+    public function indext()
+    {
+        $tasks=Tas::orderBy('created_at','DESC')->paginate(1000);
+        return response()->json($tasks,200);
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.
