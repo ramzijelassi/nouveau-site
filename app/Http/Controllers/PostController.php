@@ -33,10 +33,11 @@ class PostController extends Controller
         $post->cat_id = $request->cat_id;
         $post->user_id = Auth::user()->id;
         $post->photo = $name;
-        $post->save();
-        if($post){
+        if($post->save()){
             return $this->refresh();
-         }
+        }else{
+            return response()->json(['error'=>'destroy method  has field.'],425);
+        }
     }
     public function delete_post($id){
         $post = Post::find($id);
@@ -45,22 +46,19 @@ class PostController extends Controller
         if(file_exists($image)){
             @unlink($image);
         }
-        $post->delete();
+        if($post->delete()){
+            return $this->refresh();
+        }else{
+            return response()->json(['error'=>'destroy method  has field.'],425);
+        }
     }
     public function edit_post($id){
-        $post = Post::find($id);
-        return response()->json([
-            'post'=>$post
-        ],200);
+        $post=Post::find($id);
+
+        return response()->json($post);
     }
     public function update_post(Request $request, $id){
-        $post = Post::find($id);
-        $this->validate($request,[
-            'title'=>'required|min:2|max:50',
-            'description'=>'required|min:2|max:1000'
-        ]);
-
-
+        $post=Post::find($id);
         if($request->photo!=$post->photo){
             $strpos = strpos($request->photo,';');
             $sub = substr($request->photo,0,$strpos);
@@ -70,27 +68,27 @@ class PostController extends Controller
             $upload_path = public_path()."/uploadimage/";
             $image = $upload_path. $post->photo;
             $img->save($upload_path.$name);
-
             if(file_exists($image)){
                 @unlink($image);
             }
         }else{
             $name = $post->photo;
         }
-
-        $post->title = $request->title;
-        $post->description = $request->description;
+        $post->title=request('title');
+        $post->description=request('description');
         $post->cat_id = $request->cat_id;
-        $post->user_id = Auth::user()->id;
         $post->photo = $name;
-        $post->save();
+        $post->user_id = Auth::user()->id;
+        if($post->save()){
+            return $this->refresh();
+        }else{
+            return response()->json(['error'=>'destroy method  has field.'],425);
+        }
     }
     private function refresh()
     {
-        $posts = Post::with('user','category')->orderBy('id','desc')->get();
-       return response()->json([
-           'posts'=>$posts
-       ],200);
+        $posts = Post::with('user','category')->orderBy('id','ASC')->paginate(1000);
+        return response()->json($posts,200);
     }
 
 }

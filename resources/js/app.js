@@ -16,6 +16,8 @@ Vue.component('edit-task', require('./components/tasks/Edit.vue').default)
 
 Vue.component('new-post', require('./components/post/New.vue').default)
 Vue.component('list-post', require('./components/post/List.vue').default)
+Vue.component('edit-post', require('./components/post/Edit.vue').default)
+
 
 const store = new Vuex.Store(StoreData);
 
@@ -26,6 +28,9 @@ const router = new VueRouter({
 
 // V-form
 import { Form, HasError, AlertError } from 'vform'
+
+//support moment js
+import { filter } from './filter'
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)

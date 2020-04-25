@@ -57,9 +57,9 @@ Route::group(['middleware' => 'jwt.auth'], function ($router) {
      //Post
      Route::get('/postList','PostController@index');
      Route::post('/savepost','PostController@save_post');
-     Route::get('/delete/{id}','PostController@delete_post');
-     Route::get('/post/{id}','PostController@edit_post');
-     Route::post('/update/{id}','PostController@update_post');
+     Route::delete('/delete/{id}','PostController@delete_post');
+     Route::get('/posts/edit/{id}','PostController@edit_post');
+     Route::patch('/postList/update/{id}','PostController@update_post');
 
 
      //client

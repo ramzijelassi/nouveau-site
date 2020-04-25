@@ -14,18 +14,17 @@
 
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
+                            <table id="example2" class="table">
+                                <thead class="thead-dark">
                                 <tr>
-
                                     <th>Sl</th>
                                     <th>User</th>
                                     <th>Category</th>
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Photo</th>
-
-
+                                    <th>Action Editer</th>
+                                    <th>Action Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -34,10 +33,21 @@
                                  <td>{{post.id}}</td>
                                  <td>{{post.user.name}}</td>
                                  <td>{{post.category.cat_name}}</td>
-                                 <td>{{post.title }}</td>
-                                 <td>{{post.description }}</td>
+                                 <td>{{post.title | sortlength(20,"---")}}</td>
+                                 <td>{{post.description | sortlength(40,"....")}}</td>
                                  <td><img :src="ourImage(post.photo)" alt="" width="40" height="50"></td>
-                                </tr>
+
+                                 <td>
+                                   <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                   data-target="#editpost" @click="getpost(post.id)">
+                                    Editer
+                                  </button>
+                                  <edit-post v-bind:postToEdit="postToEdit" @post-updated="refresh"></edit-post>
+                                 </td>
+                                 <td>
+                                     <button type="button"  class="btn btn-danger" @click="deletepost(post.id)">Supprimer</button>
+                                 </td>
+                                 </tr>
                                 </tbody>
 
 
@@ -58,7 +68,7 @@ export default {
     data(){
      return{
       posts:{},
-
+      postToEdit:''
     }
 
     },
@@ -71,13 +81,23 @@ export default {
 
     },
     methods:{
-     refresh(posts){
-      this.posts = posts.data
-     },
+     deletepost(id){
+         axios.delete('http://localhost:8000/api/delete/' + id)
+         .then(response=>this.posts=response.data)
+         .catch(error=>console.log(error));
+        },
+     getpost(id){
+         axios.get('http://localhost:8000/api/posts/edit/' + id)
+         .then(response=>this.postToEdit=response.data)
+         .catch(error=>console.log(error));
+        },
       ourImage(img)
      {
         return "uploadimage/"+img;
      },
+      refresh(posts){
+         this.posts = posts.data
+        }
     },
 }
 </script>

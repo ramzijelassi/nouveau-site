@@ -35,7 +35,7 @@ export default {
         getCategory(state) {
             return state.category
         },
-        getAllPost(state) {
+        getPost(state) {
             return state.post
         },
     },
@@ -67,8 +67,14 @@ export default {
         updateCategories(state, payload) {
             state.categories = payload;
         },
+        updatePosts(state, payload) {
+            state.posts = payload;
+        },
         categoreis(state, data) {
             return state.category = data
+        },
+        posts(state, data) {
+            return state.post = data
         },
         allcategories(state, payload) {
             return state.allcategories = payload
@@ -95,11 +101,11 @@ export default {
                     context.commit('updateCategories', response.data.categories);
                 })
         },
-        gelAllPost(context) {
-            axios.get('/api/postList')
+        getPosts(context) {
+            axios.get('/api/posts')
                 .then((response) => {
                     console.log(response.data)
-                    context.commit('allpost', response.data.posts)
+                    context.commit('updatePosts', response.data.posts);
                 })
         },
 
